@@ -1,0 +1,93 @@
+@BaseUrl  = http://localhost:3000
+
+
+GET {{BaseUrl}}/api/users
+
+###
+GET {{BaseUrl}}/api/users/me
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjMyMTE0ZWY2NTIwMzY1MWI4MzViNjIiLCJ1c2VyTmFtZSI6ImlibyIsInByaW1hcnlMYW5ndWFnZSI6InRyIiwiaWF0IjoxNzE0NTU3Mjg3LCJleHAiOjE3MTQ2NDM2ODd9.jNVeS9yn39nTAkI0LUiyeMKEKIiTyUMzXXyAivtMQc4
+
+###
+POST  {{BaseUrl}}/api/users/signUp
+Content-Type: application/json
+
+{
+    "userName": "Abc",
+    "email": "abc@gmail.com",
+    "password": "123",
+    "primaryLanguage": "tr"
+}
+###
+POST  {{BaseUrl}}/api/users/signIn
+Content-Type: application/json
+
+{
+    
+    "email": "ibrhm@gmail.com",
+    "password": "123"
+}
+
+###
+PATCH   {{BaseUrl}}/api/users/me
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjMxY2NiZjBjMWRhMjQ5MDBhM2MzMjUiLCJ1c2VyTmFtZSI6ImlicmFoaW0iLCJwcmltYXJ5TGFuZ3VhZ2UiOiJ0ciIsImlhdCI6MTcxNDYzOTgwOSwiZXhwIjoxNzE0NzI2MjA5fQ.518pzqdf9Mtbq17vS7ivJ54JmEplJftdhe9u09nTwhY
+
+{
+    "password": "buwrsifrem"
+}
+
+###
+DELETE   {{BaseUrl}}/api/users/me
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjMxY2NiZjBjMWRhMjQ5MDBhM2MzMjUiLCJ1c2VyTmFtZSI6ImlicmFoaW0iLCJwcmltYXJ5TGFuZ3VhZ2UiOiJ0ciIsImlhdCI6MTcxNDYzOTgwOSwiZXhwIjoxNzE0NzI2MjA5fQ.518pzqdf9Mtbq17vS7ivJ54JmEplJftdhe9u09nTwhY
+//---------------------------------------------------------------Admin------------------------------------------------------------
+###
+POST    {{BaseUrl}}/api/admins/signUp
+Content-Type: application/json
+
+{
+    "userName": "Admin",
+    "email": "admin@gmail.com",
+    "password": "123"
+}
+
+###
+POST    {{BaseUrl}}/api/admins/signIn
+Content-Type: application/json
+
+{
+    "email": "admin@gmail.com",
+    "password": "123"
+}
+//-----------------------------------------------------------Language-----------------------------------------------
+###
+POST  {{BaseUrl}}/api/languages
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQzYjQ4Y2E0NDI3YmQwNjM1YjVhMzAiLCJ1c2VyTmFtZSI6IkFkbWluIiwiaWF0IjoxNzE2ODQxMzIzLCJleHAiOjE3MTY5Mjc3MjN9.7_tc9ohajE_IcOKuXxdt_Dq6d_r0WYG_flXdq9bImAY
+
+{
+    "name": "French",
+    "flagUnicode": "U+1F1EB U+1F1F7",
+    "symbol": "fr",
+    "imgUrl": "api/statics/languages/french.png"
+}
+
+###
+GET  {{BaseUrl}}/api/languages
+Content-Type: application/json
+
+//---------------------------------------------------------------User Languages-----------------------------------------
+###
+GET   {{BaseUrl}}/api/user_languages
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjU2MWQ3ODQ5ZWVkMzNhOGM1MWY2MDciLCJ1c2VyTmFtZSI6IsSwYnJobSIsInByaW1hcnlMYW5ndWFnZSI6InRyIiwiaWF0IjoxNzE2OTI3MzkwLCJleHAiOjE3MTcwMTM3OTB9._Qwv_7eCTrQxnzrQB-XMIrVB1x_ndlQeN2gB9GHg6FY
+
+###
+POST  {{BaseUrl}}/api/user_languages
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjU2NGM2ODJkZmNmZjY1YTBkNDBhNGEiLCJ1c2VyTmFtZSI6ImlicmhtIiwicHJpbWFyeUxhbmd1YWdlIjoidHIiLCJpYXQiOjE3MTY5MzI5ODIsImV4cCI6MTcxNzAxOTM4Mn0.COIzAeSS4h6h1zo_qneAQgs5twe2CpXZvoVdlIbNUPY
+
+{
+    "languageSymbol": "es"
+}
