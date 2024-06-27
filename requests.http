@@ -91,3 +91,13 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjU2NGM2O
 {
     "languageSymbol": "es"
 }
+//------------
+###
+POST  {{BaseUrl}}/api/user_words/get
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjU2NGM2ODJkZmNmZjY1YTBkNDBhNGEiLCJ1c2VyTmFtZSI6ImlicmhtIiwicHJpbWFyeUxhbmd1YWdlIjoidHIiLCJpYXQiOjE3MTc5ODU0NTgsImV4cCI6MTcxODA3MTg1OH0.QaqB3jN_lm6HsBGCHTJHVyAgH2Xz5DyWkWjxqOGTQX4
+
+{
+    "lan1": "en",
+    "lan2": "tr"
+}

@@ -6,6 +6,7 @@
 #
 node_modules/
 statics/
+uploads/
 npm-debug.log
 yarn-error.log
 

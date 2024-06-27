@@ -2,17 +2,24 @@ const mongoose = require("mongoose");
 
 const schema = mongoose.Schema;
 
-const wordModelCreater = (languageSymbol, modelName) => {
+const wordModelCreater = (language) => {
+    const modelName = `${language}Word`;
+
+    // Modelin zaten tanımlanıp tanımlanmadığını kontrol edin
+    if (mongoose.models[modelName]) {
+        return mongoose.models[modelName];
+    }
     const WordSchema = new schema(
         {
             word: {
-                type: String,
+                lowercase: true,
                 required: true,
-                trim: true,
+                type: String,
                 unique: true,
+                trim: true,
             },
         },
-        { collection: `${languageSymbol}_words`, timestamps: false }
+        { collection: `${language}_words`, timestamps: false }
     );
 
     WordSchema.methods.toJSON = function () {
@@ -21,7 +28,7 @@ const wordModelCreater = (languageSymbol, modelName) => {
         return word;
     };
 
-    const Word = mongoose.model(modelName, WordSchema);
+    const Word = mongoose.model(`${language}Word`, WordSchema);
 
     return Word;
 };
