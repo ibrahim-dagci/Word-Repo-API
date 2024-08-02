@@ -1,10 +1,26 @@
-const mongoose = require("mongoose");
-const createError = require("http-errors");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const schema = mongoose.Schema;
+import createError from "http-errors";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+import mongoose, {
+    Document,
+    Schema,
+    Model
+} from "mongoose";
 
-const AdminSchema = new schema(
+
+interface IAdmin extends Document {
+    userName: string;
+    email: string;
+    password: string;
+    generateToken(): Promise<string>;
+    toJSON(): IAdmin;
+}
+
+interface IAdminModel extends Model<IAdmin> {
+    signIn(email: string, password: string): Promise<IAdmin>;
+}
+
+const AdminSchema: Schema<IAdmin> = new Schema(
     {
         userName: {
             type: String,
@@ -29,21 +45,20 @@ const AdminSchema = new schema(
     { collection: "admins", timestamps: true }
 );
 
-AdminSchema.statics.signIn = async (email, password) => {
-    const admin = await Admin.findOne({ email: email });
+AdminSchema.statics.signIn = async function (email: string, password: string): Promise<IAdmin> {
+    const admin = await this.findOne({ email: email });
     if (!admin) {
         throw createError(400, "incorrect entry");
     }
 
     const passwordControl = await bcrypt.compare(password, admin.password);
-
     if (!passwordControl) {
         throw createError(400, "incorrect email or password entry");
     }
     return admin;
 };
 
-AdminSchema.methods.toJSON = function () {
+AdminSchema.methods.toJSON = function (): IAdmin {
     const admin = this.toObject();
     delete admin.createdAt;
     delete admin.updatedAt;
@@ -52,9 +67,9 @@ AdminSchema.methods.toJSON = function () {
     return admin;
 };
 
-AdminSchema.methods.generateToken = async function (userObject) {
+AdminSchema.methods.generateToken = async function (): Promise<string> {
     const admin = this;
-    const token = await jwt.sign(
+    const token = jwt.sign(
         {
             _id: admin._id,
             userName: admin.userName,
@@ -65,6 +80,6 @@ AdminSchema.methods.generateToken = async function (userObject) {
     return token;
 };
 
-const Admin = mongoose.model("Admin", AdminSchema);
+const Admin = mongoose.model<IAdmin, IAdminModel>("Admin", AdminSchema);
 
-module.exports = Admin;
+export default Admin;

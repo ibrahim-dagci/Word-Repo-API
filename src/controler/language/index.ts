@@ -1,16 +1,19 @@
-const Language = require("../../model/language");
-const createError = require("http-errors");
+import Language from "../../model/language";
+import createError from "http-errors";
+import {
+    Middleware,
+} from "../../middleware/types";
 
-const getAllLanguages = async (req, res, next) => {
+const getAllLanguages: Middleware = async (req, res, next) => {
     try {
         const allLanguages = await Language.find({});
         return res.send(allLanguages);
     } catch (err) {
-        next(createError(500, "fetch error", err));
+        next(createError(500, "languages fetch error"));
     }
 };
 
-const createLanguage = async (req, res, next) => {
+const createLanguage: Middleware = async (req, res, next) => {
     try {
         await new Language(req.body).save();
         return res.send({
@@ -19,11 +22,11 @@ const createLanguage = async (req, res, next) => {
             name: "succes",
         });
     } catch (err) {
-        next(createError(500, "language create error", err));
+        next(createError(500, "language create error"));
     }
 };
 
-const updateLanguage = async (req, res, next) => {
+const updateLanguage: Middleware = async (req, res, next) => {
     try {
         const updated = await Language.findByIdAndUpdate(
             { _id: req.params.id },
@@ -38,11 +41,11 @@ const updateLanguage = async (req, res, next) => {
                 .json({ message: "language not found", statusCode: 404 });
         }
     } catch (err) {
-        next(createError(500, "update error", err));
+        next(createError(500, "update error"));
     }
 };
 
-const deleteLanguage = async (req, res, next) => {
+const deleteLanguage: Middleware = async (req, res, next) => {
     try {
         const finded = await Language.findByIdAndDelete(req.params.id);
         if (finded) {
@@ -51,11 +54,11 @@ const deleteLanguage = async (req, res, next) => {
             return res.status(404).json({ message: "user not found" });
         }
     } catch (err) {
-        next(createError(500, "delete error", err));
+        next(createError(500, "delete error"));
     }
 };
 
-module.exports = {
+export {
     getAllLanguages,
     createLanguage,
     updateLanguage,

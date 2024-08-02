@@ -1,8 +1,11 @@
-const UserLanguage = require("../../model/user_language");
-const Language = require("../../model/language");
-const createError = require("http-errors");
+import UserLanguage from "../../model/user_language";
+import Language from "../../model/language";
+import createError from "http-errors";
+import {
+    CustomMiddleware,
+} from "../../middleware/types";
 
-const getUserLanguages = async (req, res, next) => {
+const getUserLanguages: CustomMiddleware = async (req, res, next) => {
     try {
         const allLanguages = await Language.find({});
         const userLanguages = await UserLanguage.find({ userId: req.user._id });
@@ -12,12 +15,13 @@ const getUserLanguages = async (req, res, next) => {
             );
         });
         return res.send(filteredLanguages);
-    } catch (err) {
-        next(createError(500, "languages fetch error", err));
+    } catch (err: any) {
+        console.log(err.message)
+        next(createError(500, "languages fetch error"));
     }
 };
 
-const createUserLanguage = async (req, res, next) => {
+const createUserLanguage: CustomMiddleware = async (req, res, next) => {
     try {
         const newUserLanguage = new UserLanguage({
             ...req.body,
@@ -30,11 +34,11 @@ const createUserLanguage = async (req, res, next) => {
             name: "succes",
         });
     } catch (err) {
-        next(createError(500, "language create error", err));
+        next(createError(500, "language create error"));
     }
 };
 
-module.exports = {
+export {
     getUserLanguages,
     createUserLanguage,
 };

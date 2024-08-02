@@ -1,7 +1,18 @@
-const mongoose = require("mongoose");
-const schema = mongoose.Schema;
+import mongoose, {
+    Document,
+    Schema,
+    Model
+} from 'mongoose';
 
-const LanguageSchema = new schema(
+interface ILanguage extends Document {
+    name: string;
+    flagUnicode: string;
+    symbol: string;
+    imgUrl: string;
+    toJSON(): ILanguage;
+}
+
+const LanguageSchema: Schema<ILanguage> = new Schema(
     {
         name: {
             type: String,
@@ -9,7 +20,6 @@ const LanguageSchema = new schema(
             unique: true,
             trim: true,
         },
-
         flagUnicode: {
             type: String,
             required: true,
@@ -33,7 +43,7 @@ const LanguageSchema = new schema(
     { collection: "languages", timestamps: false }
 );
 
-LanguageSchema.methods.toJSON = function () {
+LanguageSchema.methods.toJSON = function (): ILanguage {
     const language = this.toObject();
     delete language._id;
     delete language.__v;
@@ -42,4 +52,5 @@ LanguageSchema.methods.toJSON = function () {
 
 const Language = mongoose.model("Language", LanguageSchema);
 
-module.exports = Language;
+export default Language;
+

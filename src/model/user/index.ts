@@ -1,10 +1,26 @@
-const mongoose = require("mongoose");
-const createError = require("http-errors");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const schema = mongoose.Schema;
+import createError from 'http-errors';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import mongoose, {
+    Document,
+    Schema,
+    Model
+} from 'mongoose';
 
-const UserSchema = new schema(
+interface IUser extends Document {
+    userName: string;
+    email: string;
+    password: string;
+    primaryLanguage: string;
+    generateToken(): Promise<string>;
+    toJSON(): IUser;
+}
+
+interface IUserModel extends Model<IUser> {
+    signIn(email: string, password: string): Promise<IUser>;
+}
+
+const UserSchema: Schema<IUser> = new Schema(
     {
         userName: {
             type: String,
@@ -12,7 +28,6 @@ const UserSchema = new schema(
             trim: true,
             unique: true,
         },
-
         email: {
             type: String,
             required: true,
@@ -35,8 +50,8 @@ const UserSchema = new schema(
     { collection: "users", timestamps: true }
 );
 
-UserSchema.statics.signIn = async (email, password) => {
-    const user = await User.findOne({ email: email });
+UserSchema.statics.signIn = async function (email: string, password: string): Promise<IUser> {
+    const user = await this.findOne({ email });
     if (!user) {
         throw createError(400, "incorrect entry");
     }
@@ -49,7 +64,7 @@ UserSchema.statics.signIn = async (email, password) => {
     return user;
 };
 
-UserSchema.methods.toJSON = function () {
+UserSchema.methods.toJSON = function (): IUser {
     const user = this.toObject();
     delete user.createdAt;
     delete user.updatedAt;
@@ -58,8 +73,8 @@ UserSchema.methods.toJSON = function () {
     return user;
 };
 
-UserSchema.methods.generateToken = async function (userObject) {
-    const user = this;
+UserSchema.methods.generateToken = async function (): Promise<string> {
+    const user = this as IUser;
     const token = await jwt.sign(
         {
             _id: user._id,
@@ -72,6 +87,7 @@ UserSchema.methods.generateToken = async function (userObject) {
     return token;
 };
 
-const User = mongoose.model("User", UserSchema);
+const User = mongoose.model<IUser, IUserModel>("User", UserSchema);
 
-module.exports = User;
+export default User;
+

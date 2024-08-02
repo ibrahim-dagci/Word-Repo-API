@@ -1,8 +1,13 @@
-const Admin = require("../../model/admin");
-const createError = require("http-errors");
-const bcrypt = require("bcrypt");
+import Admin from "../../model/admin";
+import createError from "http-errors";
+import bcrypt from "bcrypt";
+import {
+    CustomMiddleware,
+    Middleware
+} from "../../middleware/types";
 
-const adminSignUp = async (req, res, next) => {
+
+const adminSignUp: Middleware = async (req, res, next) => {
     try {
         const currentAdmin = new Admin(req.body);
         currentAdmin.password = await bcrypt.hash(currentAdmin.password, 8);
@@ -13,21 +18,21 @@ const adminSignUp = async (req, res, next) => {
             name: "succes",
         });
     } catch (err) {
-        next(createError(500, "registration error", err));
+        next(createError(500, "admin registration error"));
     }
 };
 
-const adminSignIn = async (req, res, next) => {
+const adminSignIn: Middleware = async (req, res, next) => {
     try {
         const admin = await Admin.signIn(req.body.email, req.body.password);
         const token = await admin.generateToken();
         res.send({ admin, token });
     } catch (err) {
-        next(createError(500, "Sign In error", err));
+        next(createError(500, "admin sign in error"));
     }
 };
 
-const adminUpdate = async (req, res, next) => {
+const adminUpdate: CustomMiddleware = async (req, res, next) => {
     try {
         req.body.password = await bcrypt.hash(req.body.password, 8);
         const updated = await Admin.findByIdAndUpdate(
@@ -43,11 +48,11 @@ const adminUpdate = async (req, res, next) => {
                 .json({ message: "admin not found", statusCode: 404 });
         }
     } catch (err) {
-        next(createError(500, "admin update error", err));
+        next(createError(500, "admin update error"));
     }
 };
 
-const adminDelete = async (req, res, next) => {
+const adminDelete: CustomMiddleware = async (req, res, next) => {
     try {
         const finded = await Admin.findByIdAndDelete(req.admin._id);
         if (finded) {
@@ -56,13 +61,13 @@ const adminDelete = async (req, res, next) => {
             return res.status(404).json({ message: "admin not found" });
         }
     } catch (err) {
-        next(createError(500, "admin delete error", err));
+        next(createError(500, "admin delete error"));
     }
 };
 
-module.exports = {
+export {
     adminSignUp,
     adminSignIn,
     adminUpdate,
-    adminDelete,
+    adminDelete
 };

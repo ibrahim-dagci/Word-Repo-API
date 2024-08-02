@@ -1,8 +1,13 @@
-const User = require("../../model/user");
-const createError = require("http-errors");
-const bcrypt = require("bcrypt");
+import createError from "http-errors";
+import User from "../../model/user";
+import bcrypt from "bcrypt";
+import {
+    CustomMiddleware,
+    Middleware
+} from "../../middleware/types";
 
-const getAllUser = async (req, res, next) => {
+
+const getAllUser: Middleware = async (req, res, next) => {
     try {
         //const allUsers = await User.find({});
         return res.status(501).send({
@@ -10,11 +15,11 @@ const getAllUser = async (req, res, next) => {
             message: "This operation cannot be performed at the moment.",
         });
     } catch (err) {
-        next(createError(500, "fetch error", err));
+        next(createError(500, "users fetch error"));
     }
 };
 
-const getCurrentUser = async (req, res, next) => {
+const getCurrentUser: CustomMiddleware = async (req, res, next) => {
     try {
         const currentUser = await User.findById(req.user._id);
         if (currentUser) {
@@ -26,11 +31,11 @@ const getCurrentUser = async (req, res, next) => {
             });
         }
     } catch (err) {
-        next(createError(500, "fetch error", err));
+        next(createError(500, "user fetch error"));
     }
 };
 
-const signUp = async (req, res, next) => {
+const signUp: Middleware = async (req, res, next) => {
     try {
         const currentUser = new User(req.body);
         currentUser.password = await bcrypt.hash(currentUser.password, 8);
@@ -41,21 +46,21 @@ const signUp = async (req, res, next) => {
             name: "succes",
         });
     } catch (err) {
-        next(createError(500, "registration error", err));
+        next(createError(500, "user registration error"));
     }
 };
 
-const signIn = async (req, res, next) => {
+const signIn: Middleware = async (req, res, next) => {
     try {
         const user = await User.signIn(req.body.email, req.body.password);
         const token = await user.generateToken();
         res.send({ user, token });
     } catch (err) {
-        next(createError(500, "Sign In error", err));
+        next(createError(500, "user sign in error"));
     }
 };
 
-const userUpdate = async (req, res, next) => {
+const userUpdate: CustomMiddleware = async (req, res, next) => {
     try {
         req.body.password = await bcrypt.hash(req.body.password, 8);
         const updated = await User.findByIdAndUpdate(
@@ -71,11 +76,11 @@ const userUpdate = async (req, res, next) => {
                 .json({ message: "user not found", statusCode: 404 });
         }
     } catch (err) {
-        next(createError(500, "update error", err));
+        next(createError(500, "user update error"));
     }
 };
 
-const userDelete = async (req, res, next) => {
+const userDelete: CustomMiddleware = async (req, res, next) => {
     try {
         const finded = await User.findByIdAndDelete(req.user._id);
         if (finded) {
@@ -84,15 +89,15 @@ const userDelete = async (req, res, next) => {
             return res.status(404).json({ message: "user not found" });
         }
     } catch (err) {
-        next(createError(500, "delete error", err));
+        next(createError(500, "user delete error"));
     }
 };
 
-module.exports = {
-    getAllUser,
+export {
     getCurrentUser,
+    userDelete,
+    getAllUser,
+    userUpdate,
     signUp,
     signIn,
-    userUpdate,
-    userDelete,
 };

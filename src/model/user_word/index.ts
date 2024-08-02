@@ -1,8 +1,17 @@
-const mongoose = require("mongoose");
+import mongoose, {
+    Document,
+    Schema,
+    Model
+} from 'mongoose';
 
-const schema = mongoose.Schema;
+interface IUserWord extends Document {
+    userId: mongoose.Types.ObjectId;
+    meanId: mongoose.Types.ObjectId;
+    voice?: string;
+    toJSON(): IUserWord;
+}
 
-const userWordModelCreater = (language1, language2) => {
+const userWordModelCreater = (language1: string, language2: string): Model<IUserWord> => {
     if (language1.localeCompare(language2) > 0) {
         [language1, language2] = [language2, language1];
     }
@@ -10,17 +19,18 @@ const userWordModelCreater = (language1, language2) => {
 
     // Modelin zaten tanımlanıp tanımlanmadığını kontrol edin
     if (mongoose.models[modelName]) {
-        return mongoose.models[modelName];
+        return mongoose.models[modelName] as Model<IUserWord>;
     }
-    const UserWordSchema = new schema(
+
+    const UserWordSchema: Schema<IUserWord> = new Schema(
         {
             userId: {
-                type: schema.Types.ObjectId,
+                type: Schema.Types.ObjectId,
                 required: true,
                 ref: "User",
             },
             meanId: {
-                type: schema.Types.ObjectId,
+                type: Schema.Types.ObjectId,
                 ref: `${language1}_${language2}Mean`,
                 required: true,
             },
@@ -35,20 +45,19 @@ const userWordModelCreater = (language1, language2) => {
             timestamps: false,
         }
     );
+
     UserWordSchema.index({ userId: 1, meanId: 1 }, { unique: true });
 
-    UserWordSchema.methods.toJSON = function () {
+    UserWordSchema.methods.toJSON = function (): IUserWord {
         const word = this.toObject();
         delete word.__v;
         return word;
     };
 
-    const UserWord = mongoose.model(
-        `${language1}_${language2}UserWord`,
-        UserWordSchema
-    );
+    const UserWord = mongoose.model(modelName, UserWordSchema);
 
     return UserWord;
 };
 
-module.exports = userWordModelCreater;
+export default userWordModelCreater;
+

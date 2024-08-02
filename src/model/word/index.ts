@@ -1,20 +1,28 @@
-const mongoose = require("mongoose");
+import mongoose, {
+    Document,
+    Schema,
+    Model
+} from 'mongoose';
 
-const schema = mongoose.Schema;
+interface IWord extends Document {
+    word: string;
+    toJSON(): IWord;
+}
 
-const wordModelCreater = (language) => {
+const wordModelCreater = (language: string): Model<IWord> => {
     const modelName = `${language}Word`;
 
     // Modelin zaten tanımlanıp tanımlanmadığını kontrol edin
     if (mongoose.models[modelName]) {
-        return mongoose.models[modelName];
+        return mongoose.models[modelName] as Model<IWord>;
     }
-    const WordSchema = new schema(
+
+    const WordSchema: Schema<IWord> = new Schema(
         {
             word: {
+                type: String,
                 lowercase: true,
                 required: true,
-                type: String,
                 unique: true,
                 trim: true,
             },
@@ -22,15 +30,16 @@ const wordModelCreater = (language) => {
         { collection: `${language}_words`, timestamps: false }
     );
 
-    WordSchema.methods.toJSON = function () {
+    WordSchema.methods.toJSON = function (): IWord {
         const word = this.toObject();
         delete word.__v;
         return word;
     };
 
-    const Word = mongoose.model(`${language}Word`, WordSchema);
+    const Word = mongoose.model(modelName, WordSchema);
 
     return Word;
 };
 
-module.exports = wordModelCreater;
+export default wordModelCreater;
+

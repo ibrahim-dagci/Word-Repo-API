@@ -1,9 +1,19 @@
-const errorCatcherMiddleware = require("./src/middleware/error");
-const { userAuth } = require("./src/middleware/auth");
-const mongoose = require("mongoose");
-const express = require("express");
-const path = require("path");
-const cors = require("cors");
+import errorCatcher from "./middleware/error";
+import mongoose from "mongoose";
+import express from 'express';
+import path from "path";
+import cors from "cors";
+import {
+    userLanguageRouter,
+    userWordRouter,
+    languageRouter,
+    adminRouter,
+    userRouter,
+} from "./router";
+import {
+    userAuth
+} from "./middleware/auth";
+
 
 //creating app
 const app = express();
@@ -16,22 +26,17 @@ mongoose
     .then(() => console.log("connected to db"))
     .catch((err) => console.log("db connection error: " + err));
 
-//Routes
-const userLanguageRouter = require("./src/router/user_languages");
-const userWordRouter = require("./src/router/user_word");
-const languageRouter = require("./src/router/language");
-const adminRouter = require("./src/router/admin");
-const userRouter = require("./src/router/user");
+
 
 // statics
 app.use(
     "/api/statics/languages",
-    express.static(path.join(__dirname, "statics", "language_images"))
+    express.static(path.join(__dirname, "..", "statics", "language_images"))
 );
 app.use(
     "/api/uploads/voices",
     userAuth,
-    express.static(path.join(__dirname, "uploads", "voices"))
+    express.static(path.join(__dirname, "..", "uploads", "voices"))
 );
 
 //routing
@@ -42,7 +47,7 @@ app.use("/api/admins", adminRouter);
 app.use("/api/users", userRouter);
 
 //endpoint
-app.use(errorCatcherMiddleware);
+app.use(errorCatcher);
 
 app.listen(3000, () => {
     console.log("running on 'localhost:3000'");

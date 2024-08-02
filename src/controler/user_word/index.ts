@@ -1,11 +1,15 @@
-const userWordModelCreater = require("../../model/user_word");
-const wordModelCreater = require("../../model/word");
-const meanModelCreater = require("../../model/mean");
-const createError = require("http-errors");
-const mongoose = require("mongoose");
-const fs = require("fs");
+import userWordModelCreater from "../../model/user_word";
+import wordModelCreater from "../../model/word";
+import meanModelCreater from "../../model/mean";
+import createError from "http-errors";
+import mongoose from "mongoose";
+import fs from "fs";
+import {
+    CustomMiddleware,
+    Middleware,
+} from "../../middleware/types";
 
-const getUserWords = async (req, res, next) => {
+const getUserWords: CustomMiddleware = async (req, res, next) => {
     let { lan1, lan2 } = req.body;
     const { user } = req;
     if (lan1.localeCompare(lan2) > 0) {
@@ -36,11 +40,11 @@ const getUserWords = async (req, res, next) => {
         });
         res.send(userWords);
     } catch (err) {
-        next(createError(500, "means fetch error", err));
+        next(createError(500, "means fetch error"));
     }
 };
 
-const createUserWord = async (req, res, next) => {
+const createUserWord: CustomMiddleware = async (req, res, next) => {
     const wordData = JSON.parse(req.body.wordData);
     const fileName = req.file.filename; // voice file name
     const filePath = req.file.path; // voice file path
@@ -103,7 +107,7 @@ const createUserWord = async (req, res, next) => {
                 updateMean,
                 optionsMean
             );
-            realWord = word;
+            realMean = mean;
         } else {
             const filterMean = { lan1: current._id, lan2: primary._id };
             const updateMean = { lan1: current._id, lan2: primary._id };
@@ -139,14 +143,14 @@ const createUserWord = async (req, res, next) => {
                     console.error(`Dosya silinirken bir hata oluştu: ${err}`);
                 }
             });
-            next(createError(500, "word create error", err));
+            next(createError(500, "word create error"));
         } catch {
-            next(createError(500, "server error", err));
+            next(createError(500, "server error"));
         }
     }
 };
 
-module.exports = {
+export {
     createUserWord,
     getUserWords,
 };

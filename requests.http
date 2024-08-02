@@ -64,7 +64,41 @@ Content-Type: application/json
 ###
 POST  {{BaseUrl}}/api/languages
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQzYjQ4Y2E0NDI3YmQwNjM1YjVhMzAiLCJ1c2VyTmFtZSI6IkFkbWluIiwiaWF0IjoxNzE2ODQxMzIzLCJleHAiOjE3MTY5Mjc3MjN9.7_tc9ohajE_IcOKuXxdt_Dq6d_r0WYG_flXdq9bImAY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjljZDI2ZDg5MzNiMDRjYmYzZGIxYWYiLCJ1c2VyTmFtZSI6IkFkbWluIiwiaWF0IjoxNzIxNTUzNTI4LCJleHAiOjE3MjE2Mzk5Mjh9.-vQtCm5e8ns_ig0VlxRYKcAyMrm_wD2-xqOn4IpWrUY
+
+{
+    "name": "Turkish",
+    "flagUnicode": "U+1F1F9 U+1F1F7",
+    "symbol": "tr",
+    "imgUrl": "api/statics/languages/turkish.png"
+}
+
+###
+POST  {{BaseUrl}}/api/languages
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjljZDI2ZDg5MzNiMDRjYmYzZGIxYWYiLCJ1c2VyTmFtZSI6IkFkbWluIiwiaWF0IjoxNzIxNTUzNTI4LCJleHAiOjE3MjE2Mzk5Mjh9.-vQtCm5e8ns_ig0VlxRYKcAyMrm_wD2-xqOn4IpWrUY
+
+{
+    "name": "English",
+    "flagUnicode": "U+1F1EC U+1F1E7",
+    "symbol": "en",
+    "imgUrl": "api/statics/languages/english.png"
+}
+###
+POST  {{BaseUrl}}/api/languages
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjljZDI2ZDg5MzNiMDRjYmYzZGIxYWYiLCJ1c2VyTmFtZSI6IkFkbWluIiwiaWF0IjoxNzIxNTUzNTI4LCJleHAiOjE3MjE2Mzk5Mjh9.-vQtCm5e8ns_ig0VlxRYKcAyMrm_wD2-xqOn4IpWrUY
+
+{
+    "name": "German",
+    "flagUnicode": "U+1F1E9 U+1F1EA",
+    "symbol": "de",
+    "imgUrl": "api/statics/languages/german.png"
+}
+###
+POST  {{BaseUrl}}/api/languages
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjljZDI2ZDg5MzNiMDRjYmYzZGIxYWYiLCJ1c2VyTmFtZSI6IkFkbWluIiwiaWF0IjoxNzIxNTUzNTI4LCJleHAiOjE3MjE2Mzk5Mjh9.-vQtCm5e8ns_ig0VlxRYKcAyMrm_wD2-xqOn4IpWrUY
 
 {
     "name": "French",
@@ -72,7 +106,28 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQzYjQ4Y
     "symbol": "fr",
     "imgUrl": "api/statics/languages/french.png"
 }
+###
+POST  {{BaseUrl}}/api/languages
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjljZDI2ZDg5MzNiMDRjYmYzZGIxYWYiLCJ1c2VyTmFtZSI6IkFkbWluIiwiaWF0IjoxNzIxNTUzNTI4LCJleHAiOjE3MjE2Mzk5Mjh9.-vQtCm5e8ns_ig0VlxRYKcAyMrm_wD2-xqOn4IpWrUY
 
+{
+    "name": "Italian",
+    "flagUnicode": "U+1F1EE U+1F1F9",
+    "symbol": "it",
+    "imgUrl": "api/statics/languages/italian.png"
+}
+###
+POST  {{BaseUrl}}/api/languages
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjljZDI2ZDg5MzNiMDRjYmYzZGIxYWYiLCJ1c2VyTmFtZSI6IkFkbWluIiwiaWF0IjoxNzIxNTUzNTI4LCJleHAiOjE3MjE2Mzk5Mjh9.-vQtCm5e8ns_ig0VlxRYKcAyMrm_wD2-xqOn4IpWrUY
+
+{
+    "name": "Spanish",
+    "flagUnicode": "U+1F1EA U+1F1F8",
+    "symbol": "sp",
+    "imgUrl": "api/statics/languages/spanish.png"
+}
 ###
 GET  {{BaseUrl}}/api/languages
 Content-Type: application/json
