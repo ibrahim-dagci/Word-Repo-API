@@ -1,4 +1,3 @@
-import errorCatcher from "./middleware/error";
 import mongoose from "mongoose";
 import express from 'express';
 import path from "path";
@@ -11,8 +10,9 @@ import {
     userRouter,
 } from "./router";
 import {
-    userAuth
-} from "./middleware/auth";
+    ErrorCatcher,
+    Auth,
+} from "./middleware";
 
 
 //creating app
@@ -35,7 +35,7 @@ app.use(
 );
 app.use(
     "/api/uploads/voices",
-    userAuth,
+    Auth.userAuth,
     express.static(path.join(__dirname, "..", "uploads", "voices"))
 );
 
@@ -47,7 +47,7 @@ app.use("/api/admins", adminRouter);
 app.use("/api/users", userRouter);
 
 //endpoint
-app.use(errorCatcher);
+app.use(ErrorCatcher);
 
 app.listen(3000, () => {
     console.log("running on 'localhost:3000'");

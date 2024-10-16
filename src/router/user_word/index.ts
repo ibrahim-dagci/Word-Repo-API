@@ -9,8 +9,8 @@ import {
     getUserWords
 } from "../../controler/user_word";
 import {
-    userAuth,
-} from "../../middleware/auth";
+    Auth,
+} from "../../middleware";
 import {
     Middleware
 } from "../../middleware/types";
@@ -30,11 +30,11 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-router.post("/get", userAuth, getUserWords as Middleware);
+router.post("/get", Auth.userAuth, getUserWords as Middleware);
 
 router.post(
     "/create",
-    userAuth,
+    Auth.userAuth,
     upload.single("audio"),
     createUserWord as Middleware
 );

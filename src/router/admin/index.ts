@@ -1,7 +1,7 @@
 import express from "express";
 import {
-    adminAuth,
-} from "../../middleware/auth";
+    Auth
+} from "../../middleware";
 import {
     Middleware,
 } from "../../middleware/types";
@@ -18,9 +18,9 @@ router.post("/signUp", adminSignUp);
 
 router.post("/signIn", adminSignIn);
 
-router.patch("/me", adminAuth, adminUpdate as Middleware);
+router.patch("/me", Auth.adminAuth, adminUpdate as Middleware);
 
-router.delete("/me", adminAuth, adminDelete as Middleware);
+router.delete("/me", Auth.adminAuth, adminDelete as Middleware);
 
 export default router
 

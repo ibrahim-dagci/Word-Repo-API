@@ -3,8 +3,8 @@ import {
     Middleware
 } from "../../middleware/types";
 import {
-    userAuth
-} from "../../middleware/auth";
+    Auth
+} from "../../middleware";
 import {
     getCurrentUser,
     getAllUser,
@@ -16,16 +16,16 @@ import {
 
 const router = express.Router();
 
-router.get("/", userAuth, getAllUser);
+router.get("/", Auth.userAuth, getAllUser);
 
-router.get("/me", userAuth, getCurrentUser as Middleware);
+router.get("/me", Auth.userAuth, getCurrentUser as Middleware);
 
 router.post("/signUp", signUp);
 
 router.post("/signIn", signIn);
 
-router.patch("/me", userAuth, userUpdate as Middleware);
+router.patch("/me", Auth.userAuth, userUpdate as Middleware);
 
-router.delete("/me", userAuth, userDelete as Middleware);
+router.delete("/me", Auth.userAuth, userDelete as Middleware);
 
 export default router

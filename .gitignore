@@ -5,6 +5,7 @@
 # node.js
 #
 node_modules/
+dist/
 statics/
 uploads/
 npm-debug.log

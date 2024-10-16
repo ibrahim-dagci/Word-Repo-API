@@ -1,7 +1,7 @@
 import express from "express";
 import {
-    adminAuth
-} from "../../middleware/auth";
+    Auth
+} from "../../middleware";
 import {
     getAllLanguages,
     createLanguage,
@@ -13,10 +13,10 @@ const router = express.Router();
 
 router.get("/", getAllLanguages);
 
-router.post("/", adminAuth, createLanguage);
+router.post("/", Auth.adminAuth, createLanguage);
 
-router.patch("/:id", adminAuth, updateLanguage);
+router.patch("/:id", Auth.adminAuth, updateLanguage);
 
-router.delete("/:id", adminAuth, deleteLanguage);
+router.delete("/:id", Auth.adminAuth, deleteLanguage);
 
 export default router

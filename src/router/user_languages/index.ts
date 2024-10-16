@@ -1,7 +1,7 @@
 import express from "express";
 import {
-    userAuth
-} from "../../middleware/auth";
+    Auth
+} from "../../middleware";
 import {
     createUserLanguage,
     getUserLanguages
@@ -9,8 +9,8 @@ import {
 
 const router = express.Router();
 
-router.get("/", userAuth, getUserLanguages);
+router.get("/", Auth.userAuth, getUserLanguages);
 
-router.post("/", userAuth, createUserLanguage);
+router.post("/", Auth.userAuth, createUserLanguage);
 
 export default router;

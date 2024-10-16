@@ -30,7 +30,7 @@ const adminAuth: CustomMiddleware = async (req, res, next) => {
     }
 };
 
-export {
+export default {
     adminAuth,
     userAuth
 }
