@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
 import express from 'express';
+import dotenv from "dotenv";
 import path from "path";
 import cors from "cors";
 import {
@@ -13,20 +13,24 @@ import {
     ErrorCatcher,
     Auth,
 } from "./middleware";
+import {
+    connectDatabase
+} from './helper/database';
 
+//Environment variables
+dotenv.config({
+    path: path.join(__dirname, "config", "env", "config.env")
+});
+
+//Database Connection
+connectDatabase();
 
 //creating app
 const app = express();
+const PORT = process.env.Port || 3000;
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-mongoose
-    .connect("mongodb://localhost/wrdb")
-    .then(() => console.log("connected to db"))
-    .catch((err) => console.log("db connection error: " + err));
-
-
 
 // statics
 app.use(
@@ -49,6 +53,6 @@ app.use("/api/users", userRouter);
 //endpoint
 app.use(ErrorCatcher);
 
-app.listen(3000, () => {
+app.listen(PORT, () => {
     console.log("running on 'localhost:3000'");
 });

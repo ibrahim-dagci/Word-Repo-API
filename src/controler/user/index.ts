@@ -5,6 +5,9 @@ import {
     CustomMiddleware,
     Middleware
 } from "../../middleware/types";
+import {
+    sendJwtToClient
+} from "../../helper/authorization";
 
 
 const getAllUser: Middleware = async (req, res, next) => {
@@ -53,10 +56,10 @@ const signUp: Middleware = async (req, res, next) => {
 const signIn: Middleware = async (req, res, next) => {
     try {
         const user = await User.signIn(req.body.email, req.body.password);
-        const token = await user.generateToken();
-        res.send({ user, token });
+        await sendJwtToClient(user, res);
     } catch (err) {
         next(createError(500, "user sign in error"));
+        console.log(err);
     }
 };
 

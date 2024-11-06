@@ -75,14 +75,15 @@ UserSchema.methods.toJSON = function (): IUser {
 
 UserSchema.methods.generateToken = async function (): Promise<string> {
     const user = this as IUser;
+    const { JWT_SECRET_KEY, JWT_EXPIRE } = process.env;
     const token = await jwt.sign(
         {
             _id: user._id,
             userName: user.userName,
             primaryLanguage: user.primaryLanguage,
         },
-        "userkey",
-        { expiresIn: "24h" }
+        JWT_SECRET_KEY,
+        { expiresIn: JWT_EXPIRE }
     );
     return token;
 };
