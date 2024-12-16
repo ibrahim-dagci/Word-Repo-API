@@ -3,9 +3,6 @@ import {
     Auth
 } from "../../middleware";
 import {
-    Middleware,
-} from "../../middleware/types";
-import {
     adminSignIn,
     adminSignUp,
     adminUpdate,
@@ -18,9 +15,9 @@ router.post("/signUp", adminSignUp);
 
 router.post("/signIn", adminSignIn);
 
-router.patch("/me", Auth.adminAuth, adminUpdate as Middleware);
+router.patch("/me", Auth.adminAuth, adminUpdate);
 
-router.delete("/me", Auth.adminAuth, adminDelete as Middleware);
+router.delete("/me", Auth.adminAuth, adminDelete);
 
 export default router
 

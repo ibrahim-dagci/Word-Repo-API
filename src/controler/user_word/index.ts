@@ -69,6 +69,7 @@ const createUserWord: CustomMiddleware = async (req, res, next) => {
             upsert: true,
             new: true,
             setDefaultsOnInsert: true,
+            runValidators: true,
         };
         const current = await WordModelCurrent.findOneAndUpdate(
             filterCurrent,
@@ -83,6 +84,7 @@ const createUserWord: CustomMiddleware = async (req, res, next) => {
             upsert: true,
             new: true,
             setDefaultsOnInsert: true,
+            runValidators: true,
         };
         const primary = await WordModelPrimary.findOneAndUpdate(
             filterPrimary,
@@ -101,6 +103,7 @@ const createUserWord: CustomMiddleware = async (req, res, next) => {
                 upsert: true,
                 new: true,
                 setDefaultsOnInsert: true,
+                runValidators: true,
             };
             const mean = await MeanModel.findOneAndUpdate(
                 filterMean,
@@ -115,6 +118,7 @@ const createUserWord: CustomMiddleware = async (req, res, next) => {
                 upsert: true,
                 new: true,
                 setDefaultsOnInsert: true,
+                runValidators: true,
             };
             const mean = await MeanModel.findOneAndUpdate(
                 filterMean,

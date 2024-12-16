@@ -18,5 +18,4 @@ export type CustomMiddleware = (req: CustomRequest, res: Response, next: NextFun
 
 export type Middleware = (req: Request, res: Response, next: NextFunction) => void;
 
-
 export type ErrorMiddleware = (err: HttpError, req: Request, res: Response, next: NextFunction) => void;

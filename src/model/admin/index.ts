@@ -68,14 +68,15 @@ AdminSchema.methods.toJSON = function (): IAdmin {
 };
 
 AdminSchema.methods.generateToken = async function (): Promise<string> {
-    const admin = this;
+    const admin = this
+    const { JWT_ADMIN_SECRET_KEY, JWT_ADMIN_EXPIRE } = process.env;
     const token = jwt.sign(
         {
             _id: admin._id,
             userName: admin.userName,
         },
-        "adminkey",
-        { expiresIn: "24h" }
+        JWT_ADMIN_SECRET_KEY,
+        { expiresIn: JWT_ADMIN_EXPIRE }
     );
     return token;
 };

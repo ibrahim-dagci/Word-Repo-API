@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from "dotenv";
+import jwt from 'jsonwebtoken';
 import path from "path";
 import cors from "cors";
 import {
@@ -27,7 +28,7 @@ connectDatabase();
 
 //creating app
 const app = express();
-const PORT = process.env.Port || 3000;
+const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -39,9 +40,9 @@ app.use(
 );
 app.use(
     "/api/uploads/voices",
-    Auth.userAuth,
     express.static(path.join(__dirname, "..", "uploads", "voices"))
 );
+
 
 //routing
 app.use("/api/user_languages", userLanguageRouter);
@@ -54,5 +55,5 @@ app.use("/api/users", userRouter);
 app.use(ErrorCatcher);
 
 app.listen(PORT, () => {
-    console.log("running on 'localhost:3000'");
+    console.log(`running on 'localhost:${PORT}`);
 });
