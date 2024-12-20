@@ -1,20 +1,93 @@
+import VoiceVerificationService from "../../service/voice_verify";
+import EnglishDictionaryService from "../../service/dictionary";
+import TranslateService from "../../service/translate";
+import { getVoiceAddress } from "../../helper/address";
+import createHttpError from "http-errors";
+import fs from "fs";
 import {
     CustomMiddleware
 } from "../types";
 
-const word_verification: CustomMiddleware = (req, res, next): void => {
-    //Gelen kelime sözlükte var mı yok mu kontrol et varsa 
-    // gelen mp3 veya mp4 dosyalarını wav dosyasına çevirme
-    // Ses Örnekleme Oranını (Sampling Rate) Sabitleme
-    // Mono Kanala Dönüştürme
-    // Sessizliği Kesme (Optional) baş ve sondaki sesiz kısımları kesme (trim)
-    // MFCC ile özellik çıkarma. 
-    // DTW ile karşılaştırma.
+const translateService = new TranslateService();
+const voiceVerification = new VoiceVerificationService();
+const dictionaryService = new EnglishDictionaryService();
 
-    //--------------------- OR ---------------------------------------
+const word_verification: CustomMiddleware = async (req, res, next): Promise<void> => {
+    const {
+        wordData
+    } = req.body;
 
-    // Whisper modeli kullan
-    next();
+    const {
+        filename,
+        path
+    } = req.file;
+
+    const {
+        primaryLanguage,
+        currentLanguage,
+        word,
+        mean
+    }: {
+        primaryLanguage: any,
+        currentLanguage: any,
+        word: string,
+        mean: string,
+    } = JSON.parse(wordData);
+    try {
+        const url1 = getVoiceAddress(filename);
+        const url2 = await dictionaryService.getWordPronunciations(word)
+        const mean_verification_status = await translateService
+            .meanVerify(word, mean, currentLanguage, primaryLanguage);
+        let voice_verification_status = false;
+        console.log(mean_verification_status);
+        if (url2.length > 0) {
+            console.log("DWT doğruluyor")
+            voice_verification_status = await voiceVerification
+                .compareVoicesVerify(url1, url2[0]);
+        }
+        else {
+            console.log("whisper doğruluyor")
+            voice_verification_status = await voiceVerification
+                .converToTextVerify(word, url1, currentLanguage);
+        }
+        if (voice_verification_status) {
+            req.body.wordData = {
+                isVerified: mean_verification_status,
+                primaryLanguage,
+                currentLanguage,
+                word,
+                mean
+            }
+            next()
+        }
+        else {
+            try {
+                fs.unlink(path, (err) => {
+                    if (err) {
+                        console.error(`Dosya silinirken bir hata oluştu: ${err}`);
+                    }
+                });
+                next(createHttpError(422, "pronunciation could not be verified"));
+            }
+            catch (err) {
+                next(createHttpError(500, "server error"));
+            }
+
+        }
+    }
+    catch {
+        try {
+            fs.unlink(path, (err) => {
+                if (err) {
+                    console.error(`Dosya silinirken bir hata oluştu: ${err}`);
+                }
+            });
+            next(createHttpError(500, "word could not be verified"));
+        }
+        catch (err) {
+            next(createHttpError(500, "server error"));
+        }
+    }
 };
 
 export default word_verification;

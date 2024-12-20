@@ -7,6 +7,7 @@ import mongoose, {
 interface IMean extends Document {
     lan1: mongoose.Types.ObjectId;
     lan2: mongoose.Types.ObjectId;
+    isVerified: Boolean
     toJSON(): IMean;
 }
 
@@ -36,6 +37,11 @@ const meanModelCreater = (language1: string, language2: string): Model<IMean> =>
                 required: true,
                 trim: true,
             },
+            isVerified: {
+                type: Boolean,
+                default: false,
+                required: true
+            }
         },
         { collection: `${language1}_${language2}_means`, timestamps: false }
     );

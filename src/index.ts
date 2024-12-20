@@ -40,6 +40,7 @@ app.use(
 );
 app.use(
     "/api/uploads/voices",
+    Auth.voiceAuth,
     express.static(path.join(__dirname, "..", "uploads", "voices"))
 );
 

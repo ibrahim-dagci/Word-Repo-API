@@ -45,7 +45,7 @@ const getUserWords: CustomMiddleware = async (req, res, next) => {
 };
 
 const createUserWord: CustomMiddleware = async (req, res, next) => {
-    const wordData = JSON.parse(req.body.wordData);
+    const wordData = req.body.wordData;
     const fileName = req.file.filename; // voice file name
     const filePath = req.file.path; // voice file path
     const WordModelCurrent = wordModelCreater(wordData.currentLanguage);
@@ -98,7 +98,7 @@ const createUserWord: CustomMiddleware = async (req, res, next) => {
             wordData.currentLanguage.localeCompare(wordData.primaryLanguage) > 0
         ) {
             const filterMean = { lan1: primary._id, lan2: current._id };
-            const updateMean = { lan1: primary._id, lan2: current._id };
+            const updateMean = { lan1: primary._id, lan2: current._id, isVerified: wordData.isVerified };
             const optionsMean = {
                 upsert: true,
                 new: true,
@@ -113,7 +113,7 @@ const createUserWord: CustomMiddleware = async (req, res, next) => {
             realMean = mean;
         } else {
             const filterMean = { lan1: current._id, lan2: primary._id };
-            const updateMean = { lan1: current._id, lan2: primary._id };
+            const updateMean = { lan1: current._id, lan2: primary._id, isVerified: wordData.isVerified };
             const optionsMean = {
                 upsert: true,
                 new: true,
