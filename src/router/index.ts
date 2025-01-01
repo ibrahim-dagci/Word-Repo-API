@@ -13,3 +13,6 @@ export {
 export {
     default as userWordRouter
 } from "./user_word";
+export {
+    default as dictionaryRouter
+} from "./dictionary";

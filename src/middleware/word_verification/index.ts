@@ -7,10 +7,12 @@ import fs from "fs";
 import {
     CustomMiddleware
 } from "../types";
+import CacheService from "../../service/cache";
 
 const translateService = new TranslateService();
 const voiceVerification = new VoiceVerificationService();
 const dictionaryService = new EnglishDictionaryService();
+const cacheService = new CacheService();
 
 const word_verification: CustomMiddleware = async (req, res, next): Promise<void> => {
     const {
@@ -40,13 +42,16 @@ const word_verification: CustomMiddleware = async (req, res, next): Promise<void
             .meanVerify(word, mean, currentLanguage, primaryLanguage);
         let voice_verification_status = false;
         console.log(mean_verification_status);
-        if (url2.length > 0) {
+
+        const isRepeateingData = await cacheService.isThereAnyData(word);
+        if (url2.length > 0 && !isRepeateingData) {
+            cacheService.set(`${word.toLowerCase()}`, word.toLowerCase(), "EX", 60);
             console.log("DWT doğruluyor")
             voice_verification_status = await voiceVerification
                 .compareVoicesVerify(url1, url2[0]);
         }
         else {
-            console.log("whisper doğruluyor")
+            console.log("Whisper doğruluyor")
             voice_verification_status = await voiceVerification
                 .converToTextVerify(word, url1, currentLanguage);
         }

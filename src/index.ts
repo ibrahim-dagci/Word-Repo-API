@@ -5,6 +5,7 @@ import path from "path";
 import cors from "cors";
 import {
     userLanguageRouter,
+    dictionaryRouter,
     userWordRouter,
     languageRouter,
     adminRouter,
@@ -47,6 +48,7 @@ app.use(
 
 //routing
 app.use("/api/user_languages", userLanguageRouter);
+app.use("/api/dictionary", dictionaryRouter);
 app.use("/api/user_words", userWordRouter);
 app.use("/api/languages", languageRouter);
 app.use("/api/admins", adminRouter);
