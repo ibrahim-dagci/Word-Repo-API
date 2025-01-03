@@ -8,6 +8,6 @@ import {
 
 const router = express.Router();
 
-router.get("/:word/:sourceLanguage/:targetLanguage", getWordData);
+router.get("/:word/:sourceLanguage/:targetLanguage", Auth.userAuth, getWordData);
 
 export default router;
