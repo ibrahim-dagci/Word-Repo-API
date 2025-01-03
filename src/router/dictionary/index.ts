@@ -3,11 +3,11 @@ import {
     Auth
 } from "../../middleware";
 import {
-    getPronunciation
+    getWordData
 } from "../../controler/dictionary";
 
 const router = express.Router();
 
-router.get("/pronunciations/:word", getPronunciation);
+router.get("/:word/:sourceLanguage/:targetLanguage", getWordData);
 
 export default router;
