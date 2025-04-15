@@ -21,7 +21,12 @@ const getWordData: Middleware = async (req, res, next) => {
         } = req.params;
         if (word && sourceLanguage && targetLanguage) {
             const voice_array = await dictionary_service.getWordPronunciations(word)
-            const mean = await translate_service.translateText(word.toLocaleLowerCase(), sourceLanguage as SourceLanguageCode, targetLanguage as TargetLanguageCode);
+            const mean = await translate_service.
+                translateText(
+                    word.toLocaleLowerCase(),
+                    sourceLanguage as SourceLanguageCode,
+                    targetLanguage as TargetLanguageCode
+                );
             res.status(200);
             res.send({
                 message: "succes",
@@ -30,10 +35,10 @@ const getWordData: Middleware = async (req, res, next) => {
                     voices: voice_array
                 },
                 code: 200
-            })
+            });
         }
         else {
-            next(createHttpError(400, "Bad Request"))
+            next(createHttpError(400, "Bad Request"));
         }
     } catch {
         next(createHttpError(500, "pronunciation fetch error"));

@@ -150,7 +150,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjU2NGM2O
 ###
 POST  {{BaseUrl}}/api/user_words/get
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjU2NGM2ODJkZmNmZjY1YTBkNDBhNGEiLCJ1c2VyTmFtZSI6ImlicmhtIiwicHJpbWFyeUxhbmd1YWdlIjoidHIiLCJpYXQiOjE3MTc5ODU0NTgsImV4cCI6MTcxODA3MTg1OH0.QaqB3jN_lm6HsBGCHTJHVyAgH2Xz5DyWkWjxqOGTQX4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmFjNTIzZDBkZDViZjk3OTc1ZDJiYzciLCJ1c2VyTmFtZSI6ImlicmFoaW0iLCJwcmltYXJ5TGFuZ3VhZ2UiOiJ0ciIsImlhdCI6MTc0NDcxOTE4NCwiZXhwIjoxNzQ0NzIyNzg0fQ.qF4ebUOJ4OL6OIvOt4KcANB5i3npmgpxTWk0x6C4log
 
 {
     "lan1": "en",

@@ -1,8 +1,17 @@
-import { Request, Response, NextFunction, RequestHandler } from 'express';
-import { HttpError } from 'http-errors';
-import { JwtPayload } from 'jsonwebtoken';
+import {
+    NextFunction,
+    Response,
+    Request
+} from 'express';
+import {
+    HttpError
+} from 'http-errors';
+import {
+    JwtPayload
+} from 'jsonwebtoken';
 
 export interface Person extends JwtPayload {
+    primaryLanguage: string,
     userName: string,
     _id: string,
 }

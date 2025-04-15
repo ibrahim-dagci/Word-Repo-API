@@ -8,6 +8,7 @@ import {
     dictionaryRouter,
     userWordRouter,
     languageRouter,
+    chatbotRouter,
     adminRouter,
     userRouter,
 } from "./router";
@@ -51,6 +52,7 @@ app.use("/api/user_languages", userLanguageRouter);
 app.use("/api/dictionary", dictionaryRouter);
 app.use("/api/user_words", userWordRouter);
 app.use("/api/languages", languageRouter);
+app.use("/api/chatbot", chatbotRouter);
 app.use("/api/admins", adminRouter);
 app.use("/api/users", userRouter);
 

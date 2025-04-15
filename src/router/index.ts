@@ -16,3 +16,7 @@ export {
 export {
     default as dictionaryRouter
 } from "./dictionary";
+
+export {
+    default as chatbotRouter
+} from "./chatbot";

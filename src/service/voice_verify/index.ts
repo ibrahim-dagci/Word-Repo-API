@@ -20,7 +20,7 @@ dotenv.config({
 export default class VoiceVerificationService {
     private baseUrl: string;
     constructor() {
-        this.baseUrl = process.env.VOICE_VERIFICATION_ADDRESS;
+        this.baseUrl = process.env.SUB_SERVICE_ADDRESS;
     }
 
     async compareVoicesVerify(url1: URL, url2: URL): Promise<boolean> {
